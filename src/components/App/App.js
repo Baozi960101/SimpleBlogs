@@ -3,7 +3,13 @@ import styled from "styled-components";
 import Header from "../Header/Header";
 import HomePages from "../../Page/HomePages/HomePages";
 import LoginPages from "../../Page/LoginPages/LoginPages";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route,useParams } from "react-router-dom";
+
+function BlogPost() {
+  let { slug } = useParams();
+  console.log(slug);
+  return <div>Now showing post {slug}</div>;
+}
 
 const Root = styled.div`
   padding-top: 64px;
@@ -20,6 +26,9 @@ export default function App() {
           </Route>
           <Route path="/login">
             <LoginPages />
+          </Route>
+          <Route path="/post/:slug">
+          <BlogPost />
           </Route>
         </Switch>
       </Router>

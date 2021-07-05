@@ -26,6 +26,8 @@ const PostContainer = styled.div`
   align-items: flex-end;
 `;
 
+
+
 function Post({ posts }) {
   return (
     <PostContainer>
@@ -45,7 +47,7 @@ export default function HomePages() {
   return (
     <Root>
       {posts.map((data) => (
-        <Post posts={data} />
+        <Post key={data.id} posts={data} />
       ))}
     </Root>
   );
