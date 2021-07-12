@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import styled from "styled-components";
 import { Login, getMe } from "../../WebAPI";
 import { SetAuthToken } from "../../utils";
 import { useHistory } from "react-router-dom";
