@@ -26,8 +26,6 @@ const PostContainer = styled.div`
   align-items: flex-end;
 `;
 
-
-
 function Post({ posts }) {
   return (
     <PostContainer>

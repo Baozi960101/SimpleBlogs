@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
+import { AuthContext } from "../../contexts";
+import { SetAuthToken } from "../../utils";
 
 const HeaderContainer = styled.div`
   height: 64px;
@@ -53,6 +55,17 @@ const HeaderLeft = styled.div`
 export default function Header() {
   let location = useLocation();
 
+  const history = useHistory();
+  const { user, setUser } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    SetAuthToken("");
+    setUser(null);
+    if (location.pathname !== "./") {
+      history.push("/");
+    }
+  };
+
   return (
     <HeaderContainer>
       <HeaderLeft>
@@ -61,15 +74,20 @@ export default function Header() {
           <Nav $move={location.pathname === "/"} to="/">
             首頁
           </Nav>
-          <Nav $move={location.pathname === "/new-post"} to="/new-post">
-            發表文章
-          </Nav>
+          {user && (
+            <Nav $move={location.pathname === "/new-post"} to="/new-post">
+              發表文章
+            </Nav>
+          )}
         </NavbarList>
       </HeaderLeft>
       <NavbarList>
-        <Nav $move={location.pathname === "/login"} to="/login">
-          登入
-        </Nav>
+        {!user && (
+          <Nav $move={location.pathname === "/login"} to="/login">
+            登入
+          </Nav>
+        )}
+        {user && <Nav onClick={handleLogout}>登出</Nav>}
       </NavbarList>
     </HeaderContainer>
   );
