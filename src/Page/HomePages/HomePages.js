@@ -39,7 +39,9 @@ export default function HomePages() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getPosts().then((data) => setPosts(data));
+    getPosts().then((data) => {
+      setPosts(data);
+    });
   }, []);
 
   return (

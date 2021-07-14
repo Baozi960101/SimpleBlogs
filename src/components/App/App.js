@@ -12,11 +12,27 @@ import {
 } from "react-router-dom";
 import { AuthContext } from "../../contexts";
 import { getMe } from "../../WebAPI";
+import TextPost from "../../Page/Text";
 
 function BlogPost() {
-  let { slug } = useParams();
-  console.log(slug);
-  return <div>Now showing post {slug}</div>;
+  const [text, setText] = useState([]);
+  let { number } = useParams();
+
+  useEffect(() => {
+    fetch(`https://student-json-api.lidemy.me/posts?id=${number}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setText(data);
+      });
+  }, [number]);
+
+  return (
+    <>
+      {text.map((data) => {
+        return <TextPost key={data.id} data={data} />;
+      })}
+    </>
+  );
 }
 
 const Root = styled.div`
@@ -52,8 +68,6 @@ export default function App() {
     });
   }, []);
 
-  console.log(user);
-
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {!isLoading && <Loding>Loading....</Loding>}
@@ -67,7 +81,7 @@ export default function App() {
             <Route path="/login">
               <LoginPages />
             </Route>
-            <Route path="/post/:slug">
+            <Route path="/post/:number">
               <BlogPost />
             </Route>
             <Route path="/new-post">
